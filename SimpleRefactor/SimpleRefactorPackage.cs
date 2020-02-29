@@ -1,7 +1,16 @@
 ﻿using System;
+using System.ComponentModel.Design;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.Win32;
 using Task = System.Threading.Tasks.Task;
 
 namespace SimpleRefactor
@@ -25,12 +34,27 @@ namespace SimpleRefactor
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [Guid(SimpleRefactorPackage.PackageGuidString)]
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
+    [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string, PackageAutoLoadFlags.BackgroundLoad)]
+    [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string, PackageAutoLoadFlags.BackgroundLoad)]
     public sealed class SimpleRefactorPackage : AsyncPackage
     {
         /// <summary>
         /// SimpleRefactorPackage GUID string.
         /// </summary>
-        public const string PackageGuidString = "66a8c6a3-79cc-4130-8a78-99610c18fa34";
+        public const string PackageGuidString = "ca3a5fbc-9bc5-4046-b768-f69b236d804f";
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SimpleRefactorPackage"/> class.
+        /// </summary>
+        public SimpleRefactorPackage()
+        {
+            // Inside this method you can place any initialization code that does not require
+            // any Visual Studio service because at this point the package object is created but
+            // not sited yet inside Visual Studio environment. The place to do all the other
+            // initialization is the Initialize method.
+        }
 
         #region Package Members
 
@@ -46,6 +70,8 @@ namespace SimpleRefactor
             // When initialized asynchronously, the current thread may be a background thread at this point.
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+            await SimpleRefactor.Commands.SimpleRefactorSwitchCommand.InitializeAsync(this);
+            await SimpleRefactor.Commands.DocumentCodeSpanCommand.InitializeAsync(this);
         }
 
         #endregion
