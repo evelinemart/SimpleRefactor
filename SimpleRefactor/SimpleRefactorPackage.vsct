@@ -48,7 +48,7 @@
       <Group guid="guidSimpleRefactorPackageCmdSet" id="MyMenuGroup" priority="0x0600">
         <Parent guid="guidSimpleRefactorPackageCmdSet" id="TopLevelMenu" />
       </Group>
-      <Group guid="guidSimpleRefactorPackageCmdSet1" id="EditorContextMenuGroup " priority="0x0600">
+      <Group guid="guidSimpleRefactorPackageCmdSet1" id="EditorContextMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
       </Group>
     </Groups>
@@ -73,7 +73,7 @@
         </Strings>
       </Button>
       <Button guid="guidSimpleRefactorPackageCmdSet1" id="cmdidDocumentCodeSpanCommand" priority="0x0100" type="Button">
-        <Parent guid="guidSimpleRefactorPackageCmdSet1" id="EditorContextMenuGroup " />
+        <Parent guid="guidSimpleRefactorPackageCmdSet1" id="EditorContextMenuGroup" />
         <Icon guid="guidImages1" id="refactoring" />
         <Strings>
           <ButtonText>Convert to full initialization</ButtonText>
